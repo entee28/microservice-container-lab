@@ -1,0 +1,17 @@
+{
+  "name": "microservice-container-lab",
+  "version": "1.0.0",
+  "description": "Microservice container lab",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev-be": "turbo run dev --filter services",
+    "dev-fe": "turbo run dev --filter frontend",
+    "build": "turbo run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^1.10.6"
+  }
+}
