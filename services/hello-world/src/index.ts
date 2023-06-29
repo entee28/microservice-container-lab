@@ -17,8 +17,16 @@ app.get('/', (_, res) => {
   res.json(getLangObj('en'))
 })
 
-app.get('/:lang', (req, res) => {
-  res.json(getLangObj(req.params.lang))
+app.get('/lang/:code', (req, res) => {
+  res.json(getLangObj(req.params.code))
+})
+
+app.get('/health', (_, res) => {
+  if (!db) {
+    res.status(500).json({ status: 'DOWN' })
+  }
+
+  res.json({ status: 'UP' })
 })
 
 app.listen(4000, () => {

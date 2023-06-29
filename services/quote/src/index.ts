@@ -17,8 +17,16 @@ app.get('/', (_, res) => {
   res.json(getQuoteById(Math.floor(Math.random() * (3 - 1 + 1)) + 1))
 })
 
-app.get('/:id', (req, res) => {
+app.get('/get/:id', (req, res) => {
   res.json(getQuoteById(parseInt(req.params.id)))
+})
+
+app.get('/health', (_, res) => {
+  if (!db) {
+    res.status(500).json({ status: 'DOWN' })
+  }
+
+  res.json({ status: 'UP' })
 })
 
 app.listen(6000, () => {

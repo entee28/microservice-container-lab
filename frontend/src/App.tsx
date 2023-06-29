@@ -10,7 +10,7 @@ function App() {
   const [quote, setQuote] = useState('')
 
   const sayHello = (lang: string) => {
-    fetch(GATEWAY_ENDPOINT + '/hello/' + lang)
+    fetch(GATEWAY_ENDPOINT + '/hello/lang/' + lang)
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
@@ -19,7 +19,7 @@ function App() {
   }
 
   const getQuote = () => {
-    fetch(GATEWAY_ENDPOINT + '/quote')
+    fetch(GATEWAY_ENDPOINT + '/quote/')
       .then((response) => response.json())
       .then((data) => {
         setQuote(data.quote)
