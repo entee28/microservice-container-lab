@@ -5,8 +5,8 @@ import cors from 'cors'
 const app = express()
 const apiProxy = httpProxy.createProxyServer()
 
-const HELLO_SERVICE_ENDPOINT = 'http://localhost:4000'
-const QUOTE_SERVICE_ENDPOINT = 'http://localhost:6000'
+const HELLO_SERVICE_ENDPOINT = 'http://hello-service:4000'
+const QUOTE_SERVICE_ENDPOINT = 'http://quote-service:6000'
 
 app.use(cors())
 

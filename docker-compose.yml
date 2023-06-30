@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  hello-service:
+    build:
+      context: ./services/hello-world
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./services/hello-world/src:/home/node/app/src
+    container_name: hello-service
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: yarn start
+  quote-service:
+    build:
+      context: ./services/quote
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./services/quote/src:/home/node/app/src
+    container_name: quote-service
+    expose:
+      - '6000'
+    ports:
+      - '6000:6000'
+    command: yarn start
+  api-gateway:
+    build:
+      context: ./services/gateway
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./services/gateway/src:/home/node/app/src
+    container_name: api-gateway
+    expose:
+      - '5000'
+    ports:
+      - '5000:5000'
+    command: yarn start

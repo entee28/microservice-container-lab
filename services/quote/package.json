@@ -17,7 +17,6 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "tsconfig": "workspace:*"
+    "express": "^4.18.2"
   }
 }
