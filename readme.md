@@ -9,3 +9,13 @@
 - Hello service: A microservice that says hello in 3 languages
 - Quote service: A microservice that return a inspirational quote
 - Each microservice has an array of objects that represents a database
+
+## Quickstart
+
+**Local setup of containerized microservices**
+
+```sh
+docker-compose build
+
+docker-compose up -d
+```
