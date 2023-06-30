@@ -14,6 +14,4 @@ COPY . .
 
 FROM base as production
 
-ENV NODE_ENV=prod
-
-RUN yarn start
+RUN yarn dev --host

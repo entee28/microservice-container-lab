@@ -35,8 +35,23 @@ services:
     volumes:
       - ./services/gateway/src:/home/node/app/src
     container_name: api-gateway
+    environment:
+      - NODE_ENV=prod
     expose:
       - '5000'
     ports:
       - '5000:5000'
     command: yarn start
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./frontend/src:/home/node/app/src
+    container_name: frontend
+    expose:
+      - '5173'
+    ports:
+      - '5173:5173'
+    command: yarn dev --host

@@ -1,5 +1,4 @@
 {
-  // "extends": "../../packages/tsconfig/backend.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "./dist",
