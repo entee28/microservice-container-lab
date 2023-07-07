@@ -4,14 +4,14 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-RUN corepack enable
-
-RUN corepack prepare yarn@stable --activate
-
-RUN yarn
+RUN corepack enable && \
+    corepack prepare yarn@stable --activate && \
+    yarn
 
 COPY . .
 
 FROM base as production
 
-RUN yarn dev --host
+EXPOSE 5173
+
+CMD [ "yarn", "dev --host" ]
