@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: 'docker compose build'
-        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose build"
+        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose build
 
       - name: 'docker compose push'
         run: docker compose push
