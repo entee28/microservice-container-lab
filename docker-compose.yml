@@ -4,6 +4,9 @@ services:
   hello-service:
     build:
       context: ./services/hello-world
+      args:
+        - CONTAINER_REGISTRY
+        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/hello-service:${GIT_SHA}
     container_name: hello-service
     ports:
@@ -11,6 +14,9 @@ services:
   quote-service:
     build:
       context: ./services/quote
+      args:
+        - CONTAINER_REGISTRY
+        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/quote-service:${GIT_SHA}
     container_name: quote-service
     ports:
@@ -18,6 +24,9 @@ services:
   api-gateway:
     build:
       context: ./services/gateway
+      args:
+        - CONTAINER_REGISTRY
+        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/api-gateway:${GIT_SHA}
     container_name: api-gateway
     environment:
@@ -27,6 +36,9 @@ services:
   frontend:
     build:
       context: ./frontend
+      args:
+        - CONTAINER_REGISTRY
+        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/frontend:${GIT_SHA}
     container_name: frontend
     ports:

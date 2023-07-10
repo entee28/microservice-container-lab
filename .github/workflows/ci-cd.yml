@@ -37,10 +37,10 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: 'docker compose build'
-        run: docker compose build --build-arg "CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}}"
+        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose build"
 
       - name: 'docker compose push'
-        run: docker compose push --parallel
+        run: docker compose push
 
   deploy:
     name: Deploy to ACI
