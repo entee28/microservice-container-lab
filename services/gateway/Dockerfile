@@ -4,16 +4,18 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-RUN corepack enable && \
-    corepack prepare yarn@stable --activate && \
-    yarn
+RUN npm install
 
 COPY . .
 
-FROM base as production
+FROM node:18-alpine as production
+
+WORKDIR /home/node/app
+
+COPY --from=base /home/node/app ./
 
 ENV NODE_ENV=prod
 
 EXPOSE 5000
 
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]

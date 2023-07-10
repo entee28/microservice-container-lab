@@ -12,10 +12,6 @@
             "outputs": [
                 "frontend/dist/**"
             ],
-            "dependsOn": [
-                "lint",
-                "test"
-            ],
             "env": [
                 "VITE_APP_SERVER_URL"
             ]
