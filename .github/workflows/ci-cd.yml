@@ -1,0 +1,110 @@
+name: Azure Friday Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  # basic
+  resourceGroup: microservices-lab
+  location: southeastasia
+
+  # aci
+  image_name: microservices-lab-image
+
+jobs:
+  build:
+    name: Build / Push to ACR
+    runs-on: ubuntu-latest
+    steps:
+      # checkout branch
+      - name: git checkout main branch
+        uses: actions/checkout@v3
+
+      # log into Azure
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'docker login'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 'docker compose build'
+        run: docker compose build --build-arg "CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}}"
+
+      - name: 'docker compose push'
+        run: docker compose push --parallel
+
+  deploy:
+    name: Deploy to ACI
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # checkout branch
+      - name: git checkout main branch
+        uses: actions/checkout@v2
+
+      # log into Azure
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'Create Hello Service in ACI'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ env.resourceGroup }}
+          name: ${{ env.image_name }}
+          dns-name-label: ${{ env.image_name }}
+          image: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
+          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          location: ${{ env.location }}
+          ports: 4000
+
+      - name: 'Create Quote Service in ACI'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ env.resourceGroup }}
+          name: ${{ env.image_name }}
+          dns-name-label: ${{ env.image_name }}
+          image: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
+          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          location: ${{ env.location }}
+          ports: 6000
+
+      - name: 'Create API Gateway in ACI'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ env.resourceGroup }}
+          name: ${{ env.image_name }}
+          dns-name-label: ${{ env.image_name }}
+          image: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
+          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          location: ${{ env.location }}
+          ports: 5000
+
+      - name: 'Create Frontend in ACI'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ env.resourceGroup }}
+          name: ${{ env.image_name }}
+          dns-name-label: ${{ env.image_name }}
+          image: ${{ secrets.CONTAINER_REGISTRY }}/frontend:${{ github.sha }}
+          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          location: ${{ env.location }}
+          ports: 5173
