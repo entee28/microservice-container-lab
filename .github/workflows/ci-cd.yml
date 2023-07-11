@@ -64,7 +64,7 @@ jobs:
         uses: 'azure/container-apps-deploy-action@v1'
         with:
           imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
-          acrName: ${{ secrets.CONTAINER_REGISTRY }}
+          acrName: microserviceslab
           acrUsername: ${{ secrets.REGISTRY_USERNAME }}
           acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
           containerAppName: ${{ env.hello_image_name }}
