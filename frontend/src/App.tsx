@@ -3,14 +3,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-const GATEWAY_ENDPOINT = 'http://localhost:5000'
-
 function App() {
   const [hello, setHello] = useState('')
   const [quote, setQuote] = useState('')
 
   const sayHello = (lang: string) => {
-    fetch(GATEWAY_ENDPOINT + '/hello/lang/' + lang)
+    fetch(import.meta.env.VITE_GATEWAY_ENDPOINT + '/hello/lang/' + lang)
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
@@ -19,7 +17,7 @@ function App() {
   }
 
   const getQuote = () => {
-    fetch(GATEWAY_ENDPOINT + '/quote/')
+    fetch(import.meta.env.VITE_GATEWAY_ENDPOINT + '/quote/')
       .then((response) => response.json())
       .then((data) => {
         setQuote(data.quote)

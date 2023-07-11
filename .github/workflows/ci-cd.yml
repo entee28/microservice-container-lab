@@ -15,7 +15,6 @@ env:
   hello_image_name: hello-service
   quote_image_name: quote-service
   gateway_image_name: api-gateway
-  frontend_image_name: frontend
 
 jobs:
   build:
@@ -98,16 +97,3 @@ jobs:
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           location: ${{ env.location }}
           ports: 5000
-
-      - name: 'Create Frontend in ACI'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.frontend_image_name }}
-          dns-name-label: ${{ env.frontend_image_name }}
-          image: ${{ secrets.CONTAINER_REGISTRY }}/frontend:${{ github.sha }}
-          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          location: ${{ env.location }}
-          ports: 5173

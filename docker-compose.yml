@@ -33,13 +33,3 @@ services:
       - NODE_ENV=prod
     ports:
       - '5000:5000'
-  frontend:
-    build:
-      context: ./frontend
-      args:
-        - CONTAINER_REGISTRY
-        - GIT_SHA
-    image: ${CONTAINER_REGISTRY}/frontend:${GIT_SHA}
-    container_name: frontend
-    ports:
-      - '5173:5173'
