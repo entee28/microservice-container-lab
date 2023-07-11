@@ -10,6 +10,7 @@ env:
   # basic
   resourceGroup: microservices-lab
   location: southeastasia
+  aca-environment: microserviceslab-aca-env
 
   # aci
   hello_image_name: hello-service
@@ -45,7 +46,7 @@ jobs:
         run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose push
 
   deploy:
-    name: Deploy to ACI
+    name: Deploy to ACA
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -59,41 +60,42 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: 'Create Hello Service in ACI'
-        uses: 'azure/aci-deploy@v1'
+      - name: 'Deploy Hello Service to ACA'
+        uses: 'azure/container-apps-deploy-action@v1'
         with:
-          resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.hello_image_name }}
-          dns-name-label: ${{ env.hello_image_name }}
-          image: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
-          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
+          acrName: ${{ secrets.CONTAINER_REGISTRY }}
+          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
+          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
+          containerAppName: ${{ env.hello_image_name }}
+          resourceGroup: ${{ env.resourceGroup }}
+          containerAppEnvironment: ${{ env.aca-environment }}
           location: ${{ env.location }}
-          ports: 4000
+          targetPort: 4000
+          ingress: external
 
-      - name: 'Create Quote Service in ACI'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.quote_image_name }}
-          dns-name-label: ${{ env.quote_image_name }}
-          image: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
-          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          location: ${{ env.location }}
-          ports: 6000
+      # - name: 'Create Quote Service in ACI'
+      #   uses: 'azure/aci-deploy@v1'
+      #   with:
+      #     resource-group: ${{ env.resourceGroup }}
+      #     name: ${{ env.quote_image_name }}
+      #     dns-name-label: ${{ env.quote_image_name }}
+      #     image: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
+      #     registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      #     location: ${{ env.location }}
+      #     ports: 6000
 
-      - name: 'Create API Gateway in ACI'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.gateway_image_name }}
-          dns-name-label: ${{ env.gateway_image_name }}
-          image: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
-          registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          location: ${{ env.location }}
-          ports: 5000
+      # - name: 'Create API Gateway in ACI'
+      #   uses: 'azure/aci-deploy@v1'
+      #   with:
+      #     resource-group: ${{ env.resourceGroup }}
+      #     name: ${{ env.gateway_image_name }}
+      #     dns-name-label: ${{ env.gateway_image_name }}
+      #     image: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
+      #     registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
+      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      #     location: ${{ env.location }}
+      #     ports: 5000
