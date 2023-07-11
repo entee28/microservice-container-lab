@@ -12,7 +12,10 @@ env:
   location: southeastasia
 
   # aci
-  image_name: microservices-lab-image
+  hello_image_name: hello_service
+  quote_image_name: quote_service
+  gateway_image_name: api_gateway
+  frontend_image_name: frontend
 
 jobs:
   build:
@@ -61,8 +64,8 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.image_name }}
-          dns-name-label: ${{ env.image_name }}
+          name: ${{ env.hello_image_name }}
+          dns-name-label: ${{ env.hello_image_name }}
           image: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
           registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
@@ -74,8 +77,8 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.image_name }}
-          dns-name-label: ${{ env.image_name }}
+          name: ${{ env.quote_image_name }}
+          dns-name-label: ${{ env.quote_image_name }}
           image: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
           registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
@@ -87,8 +90,8 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.image_name }}
-          dns-name-label: ${{ env.image_name }}
+          name: ${{ env.gateway_image_name }}
+          dns-name-label: ${{ env.gateway_image_name }}
           image: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
           registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
@@ -100,8 +103,8 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ env.resourceGroup }}
-          name: ${{ env.image_name }}
-          dns-name-label: ${{ env.image_name }}
+          name: ${{ env.frontend_image_name }}
+          dns-name-label: ${{ env.frontend_image_name }}
           image: ${{ secrets.CONTAINER_REGISTRY }}/frontend:${{ github.sha }}
           registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
