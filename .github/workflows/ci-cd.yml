@@ -74,28 +74,30 @@ jobs:
           targetPort: 4000
           ingress: external
 
-      # - name: 'Create Quote Service in ACI'
-      #   uses: 'azure/aci-deploy@v1'
-      #   with:
-      #     resource-group: ${{ env.resourceGroup }}
-      #     name: ${{ env.quote_image_name }}
-      #     dns-name-label: ${{ env.quote_image_name }}
-      #     image: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
-      #     registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
-      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-      #     location: ${{ env.location }}
-      #     ports: 6000
+      - name: 'Deploy Quote Service to ACA'
+        uses: 'azure/container-apps-deploy-action@v1'
+        with:
+          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
+          acrName: microserviceslab
+          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
+          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
+          containerAppName: ${{ env.quote_image_name }}
+          resourceGroup: ${{ env.resourceGroup }}
+          containerAppEnvironment: ${{ env.aca-environment }}
+          location: ${{ env.location }}
+          targetPort: 6000
+          ingress: external
 
-      # - name: 'Create API Gateway in ACI'
-      #   uses: 'azure/aci-deploy@v1'
-      #   with:
-      #     resource-group: ${{ env.resourceGroup }}
-      #     name: ${{ env.gateway_image_name }}
-      #     dns-name-label: ${{ env.gateway_image_name }}
-      #     image: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
-      #     registry-login-server: ${{ secrets.CONTAINER_REGISTRY }}
-      #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
-      #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-      #     location: ${{ env.location }}
-      #     ports: 5000
+      - name: 'Deploy API Gateway to ACA'
+        uses: 'azure/container-apps-deploy-action@v1'
+        with:
+          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
+          acrName: microserviceslab
+          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
+          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
+          containerAppName: ${{ env.gateway_image_name }}
+          resourceGroup: ${{ env.resourceGroup }}
+          containerAppEnvironment: ${{ env.aca-environment }}
+          location: ${{ env.location }}
+          targetPort: 5000
+          ingress: external
