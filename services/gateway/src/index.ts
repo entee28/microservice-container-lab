@@ -8,11 +8,11 @@ const apiProxy = httpProxy.createProxyServer()
 
 const HELLO_SERVICE_ENDPOINT =
   process.env.NODE_ENV === 'prod'
-    ? 'http://hello-service.southeastasia.azurecontainer.io:4000'
+    ? 'https://hello-service.yellowpond-af1f4804.southeastasia.azurecontainerapps.io'
     : 'http://hello-service:4000'
 const QUOTE_SERVICE_ENDPOINT =
   process.env.NODE_ENV === 'prod'
-    ? 'http://quote-service.southeastasia.azurecontainer.io:6000'
+    ? 'https://quote-service.yellowpond-af1f4804.southeastasia.azurecontainerapps.io'
     : 'http://quote-service:6000'
 
 app.use(cors())
