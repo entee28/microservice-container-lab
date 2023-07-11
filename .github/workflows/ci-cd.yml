@@ -101,3 +101,4 @@ jobs:
           location: ${{ env.location }}
           targetPort: 5000
           ingress: external
+          environmentVariables: NODE_ENV=prod
