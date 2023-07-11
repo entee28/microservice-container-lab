@@ -12,9 +12,9 @@ env:
   location: southeastasia
 
   # aci
-  hello_image_name: hello_service
-  quote_image_name: quote_service
-  gateway_image_name: api_gateway
+  hello_image_name: hello-service
+  quote_image_name: quote-service
+  gateway_image_name: api-gateway
   frontend_image_name: frontend
 
 jobs:
