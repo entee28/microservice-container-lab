@@ -71,7 +71,7 @@ jobs:
           containerAppEnvironment: ${{ env.aca-environment }}
           location: ${{ env.location }}
           targetPort: 4000
-          ingress: internal
+          ingress: external
 
       - name: 'Deploy Quote Service to ACA'
         uses: 'azure/container-apps-deploy-action@v1'
@@ -85,4 +85,4 @@ jobs:
           containerAppEnvironment: ${{ env.aca-environment }}
           location: ${{ env.location }}
           targetPort: 6000
-          ingress: internal
+          ingress: external

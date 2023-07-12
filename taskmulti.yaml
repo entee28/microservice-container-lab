@@ -1,0 +1,13 @@
+version: v1.1.0
+steps:
+# Build target image
+- build: -t {{.Run.Registry}}/hello-service:{{.Run.ID}} ./services/hello-world
+- build: -t {{.Run.Registry}}/quote-service:{{.Run.ID}} ./services/quote
+- build: -t {{.Run.Registry}}/api-gateway:{{.Run.ID}} ./services/gateway
+- build: -t {{.Run.Registry}}/frontend:{{.Run.ID}} ./frontend
+# Push image
+- push:
+  - {{.Run.Registry}}/hello-service:{{.Run.ID}}
+  - {{.Run.Registry}}/quote-service:{{.Run.ID}}
+  - {{.Run.Registry}}/api-gateway:{{.Run.ID}}
+  - {{.Run.Registry}}/frontend:{{.Run.ID}}
