@@ -6,14 +6,8 @@ import cors from 'cors'
 const app = express()
 const apiProxy = httpProxy.createProxyServer()
 
-const HELLO_SERVICE_ENDPOINT =
-  process.env.NODE_ENV === 'prod'
-    ? 'https://hello-service.yellowpond-af1f4804.southeastasia.azurecontainerapps.io'
-    : 'http://hello-service:4000'
-const QUOTE_SERVICE_ENDPOINT =
-  process.env.NODE_ENV === 'prod'
-    ? 'https://quote-service.yellowpond-af1f4804.southeastasia.azurecontainerapps.io'
-    : 'http://quote-service:6000'
+const HELLO_SERVICE_ENDPOINT = process.env.NODE_ENV === 'prod' ? 'http://hello-service:4000' : 'http://localhost:4000'
+const QUOTE_SERVICE_ENDPOINT = process.env.NODE_ENV === 'prod' ? 'http://quote-service:6000' : 'http://localhost:4000'
 
 app.use(cors())
 

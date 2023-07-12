@@ -21,15 +21,3 @@ services:
     container_name: quote-service
     ports:
       - '6000:6000'
-  api-gateway:
-    build:
-      context: ./services/gateway
-      args:
-        - CONTAINER_REGISTRY
-        - GIT_SHA
-    image: ${CONTAINER_REGISTRY}/api-gateway:${GIT_SHA}
-    container_name: api-gateway
-    environment:
-      - NODE_ENV=prod
-    ports:
-      - '5000:5000'

@@ -15,7 +15,6 @@ env:
   # aci
   hello_image_name: hello-service
   quote_image_name: quote-service
-  gateway_image_name: api-gateway
 
 jobs:
   build:
@@ -87,18 +86,3 @@ jobs:
           location: ${{ env.location }}
           targetPort: 6000
           ingress: external
-
-      - name: 'Deploy API Gateway to ACA'
-        uses: 'azure/container-apps-deploy-action@v1'
-        with:
-          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/api-gateway:${{ github.sha }}
-          acrName: microserviceslab
-          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-          containerAppName: ${{ env.gateway_image_name }}
-          resourceGroup: ${{ env.resourceGroup }}
-          containerAppEnvironment: ${{ env.aca-environment }}
-          location: ${{ env.location }}
-          targetPort: 5000
-          ingress: external
-          environmentVariables: NODE_ENV=prod

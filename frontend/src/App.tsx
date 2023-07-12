@@ -17,7 +17,7 @@ function App() {
   }
 
   const getQuote = () => {
-    fetch(import.meta.env.VITE_GATEWAY_ENDPOINT + '/quote/')
+    fetch(import.meta.env.VITE_GATEWAY_ENDPOINT + '/quote')
       .then((response) => response.json())
       .then((data) => {
         setQuote(data.quote)
