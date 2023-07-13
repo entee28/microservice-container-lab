@@ -1,32 +1,63 @@
+import 'dotenv/config'
 import express from 'express'
-import db from './db'
+import mongoose from 'mongoose'
+import { QuoteModel } from './models/Quote'
 
 const app = express()
+app.use(express.json())
 
-const getQuoteById = (id: number) => {
-  const res = db.filter((item) => item.id === id)
+mongoose
+  .connect(process.env.COSMOS_URI)
+  .then(() => {
+    console.log('Cosmos DB connected')
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 
-  if (res.length === 0) {
-    return { message: 'Quote not found' }
-  }
-
-  return res[0]
-}
-
-app.get('/', (_, res) => {
-  res.json(getQuoteById(Math.floor(Math.random() * (3 - 1 + 1)) + 1))
+app.get('/', async (_, res) => {
+  const quotes = await QuoteModel.find()
+  res.json(quotes)
 })
 
-app.get('/get/:id', (req, res) => {
-  res.json(getQuoteById(parseInt(req.params.id)))
+app.get('/get/:id', async (req, res) => {
+  const quote = await QuoteModel.findById(req.params.id)
+  res.json(quote ?? { error: 'quote not found' })
+})
+
+app.post('/', async (req, res) => {
+  const { quote } = req.body || {}
+
+  if (!quote) {
+    res.status(400).json({ error: 'quote are required' })
+    return
+  }
+
+  try {
+    const newQuote = await new QuoteModel({
+      quote
+    }).save()
+
+    res.status(200).json(newQuote)
+  } catch (error) {
+    res.status(400).json({ error })
+  }
 })
 
 app.get('/health', (_, res) => {
-  if (!db) {
-    res.status(500).json({ status: 'DOWN' })
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: 'OK' as any,
+    timestamp: Date.now(),
+    db: mongoose.connection.readyState
   }
 
-  res.json({ status: 'UP' })
+  try {
+    res.send(healthcheck)
+  } catch (error) {
+    healthcheck.message = error
+    res.status(503).send()
+  }
 })
 
 app.listen(6000, () => {

@@ -1,4 +1,5 @@
 {
+  "files": ["src/env.d.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "./dist",

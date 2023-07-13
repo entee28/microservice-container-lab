@@ -1,32 +1,67 @@
+import 'dotenv/config'
 import express from 'express'
-import db from './db'
+import mongoose from 'mongoose'
+import { HelloModel } from './models/Hello'
 
 const app = express()
+app.use(express.json())
 
-const getLangObj = (lang: string) => {
-  const res = db.filter((item) => item.lang === lang)
+mongoose
+  .connect(process.env.COSMOS_URI)
+  .then(() => {
+    console.log('Cosmos DB connected')
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 
-  if (res.length === 0) {
-    return { message: 'Language not found' }
-  }
-
-  return res[0]
-}
-
-app.get('/', (_, res) => {
-  res.json(getLangObj('en'))
+app.get('/', async (_, res) => {
+  const result = await HelloModel.find()
+  res.json(result)
 })
 
-app.get('/lang/:code', (req, res) => {
-  res.json(getLangObj(req.params.code))
+app.get('/lang/:code', async (req, res) => {
+  const result = await HelloModel.findOne({
+    lang: req.params.code
+  })
+
+  res.json(result ?? { error: 'lang not found' })
+})
+
+app.post('/', async (req, res) => {
+  const { lang, message } = req.body || {}
+
+  if (!lang || !message) {
+    res.status(400).json({ error: 'lang and message are required' })
+    return
+  }
+
+  try {
+    const newHello = await new HelloModel({
+      lang,
+      message
+    }).save()
+
+    res.status(200).json(newHello)
+  } catch (error) {
+    res.status(400).json({ error })
+  }
 })
 
 app.get('/health', (_, res) => {
-  if (!db) {
-    res.status(500).json({ status: 'DOWN' })
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: 'OK' as any,
+    timestamp: Date.now(),
+    db: mongoose.connection.readyState
   }
 
-  res.json({ status: 'UP' })
+  try {
+    res.send(healthcheck)
+  } catch (error) {
+    healthcheck.message = error
+    res.status(503).send()
+  }
 })
 
 app.listen(4000, () => {

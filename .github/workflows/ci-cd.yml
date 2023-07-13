@@ -72,6 +72,7 @@ jobs:
           location: ${{ env.location }}
           targetPort: 4000
           ingress: external
+          environmentVariables: COSMOS_URI=${{ secrets.COSMOS_URI }}
 
       - name: 'Deploy Quote Service to ACA'
         uses: 'azure/container-apps-deploy-action@v1'
@@ -86,3 +87,4 @@ jobs:
           location: ${{ env.location }}
           targetPort: 6000
           ingress: external
+          environmentVariables: COSMOS_URI=${{ secrets.COSMOS_URI }}
