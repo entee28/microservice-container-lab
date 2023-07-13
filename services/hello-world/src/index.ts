@@ -6,8 +6,6 @@ import { HelloModel } from './models/Hello'
 const app = express()
 app.use(express.json())
 
-console.log('COSMOS_URI', process.env.COSMOS_URI)
-
 mongoose
   .connect(process.env.COSMOS_URI)
   .then(() => {
