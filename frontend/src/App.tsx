@@ -25,7 +25,7 @@ function App() {
     fetch(import.meta.env.VITE_GATEWAY_ENDPOINT + '/quote')
       .then((response) => response.json())
       .then((data) => {
-        setQuotes(data.quote)
+        setQuotes(data)
       })
   }
 

@@ -39,10 +39,10 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: 'docker compose build'
-        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose build
+        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} COSMOS_URI=${{secrets.COSMOS_URI}} && docker compose build
 
       - name: 'docker compose push'
-        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} && docker compose push
+        run: export CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} COSMOS_URI=${{secrets.COSMOS_URI}} && docker compose push
 
   deploy:
     name: Deploy to ACA
@@ -72,7 +72,6 @@ jobs:
           location: ${{ env.location }}
           targetPort: 4000
           ingress: external
-          environmentVariables: COSMOS_URI=${{ secrets.COSMOS_URI }}
 
       - name: 'Deploy Quote Service to ACA'
         uses: 'azure/container-apps-deploy-action@v1'
@@ -87,4 +86,3 @@ jobs:
           location: ${{ env.location }}
           targetPort: 6000
           ingress: external
-          environmentVariables: COSMOS_URI=${{ secrets.COSMOS_URI }}
