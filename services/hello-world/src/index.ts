@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 
 mongoose
-  .connect(process.env.COSMOS_URI)
+  .connect(process.env.COSMOS_URI[0] === '"' ? process.env.COSMOS_URI.slice(1, -1) : process.env.COSMOS_URI)
   .then(() => {
     console.log('Cosmos DB connected')
   })
