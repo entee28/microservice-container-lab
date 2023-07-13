@@ -14,6 +14,8 @@ WORKDIR /home/node/app
 
 COPY --from=base /home/node/app ./
 
+ENV COSMOS_URI=$COSMOS_URI
+
 EXPOSE 4000
 
 CMD [ "npm", "start" ]
