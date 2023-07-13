@@ -1,7 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      cosmosuri: string
+      COSMOS_URI: string
     }
   }
 }

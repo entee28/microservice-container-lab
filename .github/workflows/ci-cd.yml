@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'frontend/**'
   workflow_dispatch:
 
 env:
@@ -72,6 +74,8 @@ jobs:
           location: ${{ env.location }}
           targetPort: 4000
           ingress: external
+          environmentVariables: |
+            COSMOS_URI=secretref:cosmosuri
 
       - name: 'Deploy Quote Service to ACA'
         uses: 'azure/container-apps-deploy-action@v1'
@@ -86,3 +90,5 @@ jobs:
           location: ${{ env.location }}
           targetPort: 6000
           ingress: external
+          environmentVariables: |
+            COSMOS_URI=secretref:cosmosuri
