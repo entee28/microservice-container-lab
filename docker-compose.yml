@@ -4,20 +4,18 @@ services:
   hello-service:
     build:
       context: ./services/hello-world
-      args:
-        - CONTAINER_REGISTRY
-        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/hello-service:${GIT_SHA}
     container_name: hello-service
+    environment:
+      - COSMOS_URI=${COSMOS_URI}
     ports:
       - '4000:4000'
   quote-service:
     build:
       context: ./services/quote
-      args:
-        - CONTAINER_REGISTRY
-        - GIT_SHA
     image: ${CONTAINER_REGISTRY}/quote-service:${GIT_SHA}
     container_name: quote-service
+    environment:
+      - COSMOS_URI=${COSMOS_URI}
     ports:
       - '6000:6000'
