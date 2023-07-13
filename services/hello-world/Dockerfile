@@ -14,7 +14,7 @@ WORKDIR /home/node/app
 
 COPY --from=base /home/node/app ./
 
-ENV COSMOS_URI=$COSMOS_URI
+ENV cosmosuri=$cosmosuri
 
 EXPOSE 4000
 
