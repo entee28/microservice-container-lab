@@ -11,6 +11,7 @@ on:
 env:
   # basic
   resourceGroup: microservices-lab
+  clusterName: lab-aks-cluster
   location: southeastasia
   aca-environment: microserviceslab-aca-env
 
@@ -47,7 +48,7 @@ jobs:
         run: CONTAINER_REGISTRY=${{secrets.CONTAINER_REGISTRY}} GIT_SHA=${{github.sha}} docker compose push
 
   deploy:
-    name: Deploy to ACA
+    name: Deploy to AKS
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -55,40 +56,32 @@ jobs:
       - name: git checkout main branch
         uses: actions/checkout@v2
 
+      - name: 'Install Helm'
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.3.1
+
       # log into Azure
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: 'Deploy Hello Service to ACA'
-        uses: 'azure/container-apps-deploy-action@v1'
+      - name: 'Set AKS Context'
+        uses: azure/aks-set-context@v3
         with:
-          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/hello-service:${{ github.sha }}
-          acrName: microserviceslab
-          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-          containerAppName: ${{ env.hello_image_name }}
-          resourceGroup: ${{ env.resourceGroup }}
-          containerAppEnvironment: ${{ env.aca-environment }}
-          location: ${{ env.location }}
-          targetPort: 4000
-          ingress: external
-          environmentVariables: |
-            COSMOS_URI=secretref:cosmosuri
+          resource-group: ${{ env.resourceGroup }}
+          cluster-name: ${{env.clusterName}}
 
-      - name: 'Deploy Quote Service to ACA'
-        uses: 'azure/container-apps-deploy-action@v1'
-        with:
-          imageToDeploy: ${{ secrets.CONTAINER_REGISTRY }}/quote-service:${{ github.sha }}
-          acrName: microserviceslab
-          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-          containerAppName: ${{ env.quote_image_name }}
-          resourceGroup: ${{ env.resourceGroup }}
-          containerAppEnvironment: ${{ env.aca-environment }}
-          location: ${{ env.location }}
-          targetPort: 6000
-          ingress: external
-          environmentVariables: |
-            COSMOS_URI=secretref:cosmosuri
+      - name: 'Helm Deploy Hello Service'
+        run: |
+          helm upgrade \
+            --install \
+            --create-namespace \
+            --atomic \
+            --wait \
+            --namespace prod \
+            hello-service \
+            ./services/hello-world/kubernetes \
+            --set image.tag=${{github.sha}} \
+            --set image.registry=${{secrets.CONTAINER_REGISTRY}} \
