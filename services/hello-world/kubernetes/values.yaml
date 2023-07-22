@@ -11,14 +11,20 @@ service:
   port: 80
 
 ingress:
+  className: webapprouting.kubernetes.azure.com
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://microserviceslab-kvault.vault.azure.net/certificates/aks-ssl-cert/e96f19f4cb0f472aa1d01ae1acda034e
   hosts:
-    - host: hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
+    - host: hello-service
       paths:
         - path: /
           pathType: Prefix
+
+  tls:
+   - secretName: keyvault-hello-service
+     hosts:
+       - hello-service
 
 resources:
   limits:
