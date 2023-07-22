@@ -18,7 +18,7 @@ COPY --from=base /home/node/app ./
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/node
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup && chown -R appuser /app /tmp
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
 ENV COSMOS_URI=$COSMOS_URI
