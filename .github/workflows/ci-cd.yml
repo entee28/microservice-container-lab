@@ -11,7 +11,7 @@ on:
 env:
   # basic
   resourceGroup: microservices-lab
-  clusterName: aks-cluster-lab
+  clusterName: lab-aks-cluster
   location: southeastasia
   aca-environment: microserviceslab-aca-env
 

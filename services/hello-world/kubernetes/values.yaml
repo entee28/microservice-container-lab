@@ -15,7 +15,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
   hosts:
-    - host: hello-service.460696fd1d914588a7ba.southeastasia.aksapp.io
+    - host: hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
       paths:
         - path: /
           pathType: Prefix
