@@ -24,12 +24,12 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:
-          {{- range .Values.secrets }}
+            {{- range .Values.secrets }}
             - name: {{.name}}
               valueFrom:
                 secretKeyRef:
                   name: {{.secretKeyRef.name}}
                   key: {{.secretKeyRef.key}}
-          {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
