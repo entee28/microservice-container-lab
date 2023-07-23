@@ -14,9 +14,9 @@ ingress:
   className: webapprouting.kubernetes.azure.com
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://microserviceslab-kvault.vault.azure.net/certificates/hello-service-cert/3221569f62894aee82c790c2c7667636
   hosts:
-    - host: hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
+    - host: hello-service.microserviceslab.io
       paths:
         - path: /
           pathType: Prefix
