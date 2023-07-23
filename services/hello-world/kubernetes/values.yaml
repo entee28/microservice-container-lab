@@ -30,7 +30,7 @@ secrets:
  - name: MONGO_URI
    secretKeyRef:
     name: hello-database
-    key: mongo-uri
+    key: mongo_uri
 
 resources:
   limits:
