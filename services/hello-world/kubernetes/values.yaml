@@ -14,9 +14,9 @@ ingress:
   className: webapprouting.kubernetes.azure.com
   enabled: true
   annotations:
-    kubernetes.azure.com/tls-cert-keyvault-uri: https://microserviceslab-kvault.vault.azure.net/certificates/hello-service-cert/cb1a84bfd68d4976bee2b10889a9eb85
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://microserviceslab-kvault.vault.azure.net/certificates/hello-service-cert/3221569f62894aee82c790c2c7667636
   hosts:
-    - host: hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
+    - host: hello-service.microserviceslab.io
       paths:
         - path: /
           pathType: Prefix
@@ -24,7 +24,7 @@ ingress:
   tls:
    - secretName: keyvault-hello-service
      hosts:
-       - hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
+       - hello-service.microserviceslab.io
 
 secrets:
  - name: COSMOS_URI
