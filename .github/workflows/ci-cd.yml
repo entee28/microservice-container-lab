@@ -85,4 +85,3 @@ jobs:
             ./services/hello-world/kubernetes \
             --set image.tag=${{github.sha}} \
             --set image.registry=${{secrets.CONTAINER_REGISTRY}} \
-            --set controller.service.externalTrafficPolicy=Local \
