@@ -26,6 +26,12 @@ ingress:
      hosts:
        - hello-service.6f449b07363b4e2eb07c.southeastasia.aksapp.io
 
+secrets:
+ - name: MONGO_URI
+   secretKeyRef:
+    name: hello-database
+    key: mongo-uri
+
 resources:
   limits:
     cpu: 250m

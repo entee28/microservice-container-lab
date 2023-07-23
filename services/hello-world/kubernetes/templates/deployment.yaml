@@ -23,5 +23,13 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+          {{-range .Values.secrets }}
+            - name: {{.name}}
+              valueFrom:
+                secretKeyRef:
+                  name: {{.secretKeyRef.name}}
+                  key: {{.secretKeyRef.key}}
+          {{-end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
