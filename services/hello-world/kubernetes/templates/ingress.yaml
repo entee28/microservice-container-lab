@@ -30,7 +30,7 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  name: http
+                  number: 80
       # host: {{ .host | quote }}
       
           {{- end }}
