@@ -11,17 +11,18 @@ metadata:
   {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  # tls:
-  #   {{- range .Values.ingress.tls }}
-  #   - hosts:
-  #       {{- range .hosts }}
-  #       - {{ . | quote }}
-  #       {{- end }}
-  #     secretName: {{ .secretName }}
-  #   {{- end }}
+  tls:
+    {{- range .Values.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - http:
+    - host: {{ .host | quote }}
+      http:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
@@ -32,6 +33,5 @@ spec:
                 port:
                   name: http
           {{- end }}
-        # host: {{ .host | quote }}
     {{- end }}
 {{- end }}
