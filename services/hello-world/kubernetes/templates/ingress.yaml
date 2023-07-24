@@ -31,7 +31,6 @@ spec:
                 name: {{ $fullName }}
                 port:
                   name: http
-                  number: 80
           {{- end }}
         # host: {{ .host | quote }}
     {{- end }}
