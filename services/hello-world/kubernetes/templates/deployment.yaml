@@ -31,10 +31,6 @@ spec:
                   name: {{ .secretKeyRef.name }}
                   key: {{ .secretKeyRef.key }}
             {{- end }}
-          volumeMounts:
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
