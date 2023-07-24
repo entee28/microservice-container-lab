@@ -13,11 +13,6 @@ env:
   resourceGroup: microservices-lab
   clusterName: lab-aks-cluster
   location: southeastasia
-  aca-environment: microserviceslab-aca-env
-
-  # aci
-  hello_image_name: hello-service
-  quote_image_name: quote-service
 
 jobs:
   build:
@@ -85,3 +80,18 @@ jobs:
             ./services/hello-world/kubernetes \
             --set image.tag=${{github.sha}} \
             --set image.registry=${{secrets.CONTAINER_REGISTRY}} \
+            --set cosmos_uri=${{secrets.COSMOS_URI}} \
+
+      - name: 'Helm Deploy Quote Service'
+        run: |
+          helm upgrade \
+            --install \
+            --create-namespace \
+            --atomic \
+            --wait \
+            --namespace prod \
+            quote-service \
+            ./services/quote/kubernetes \
+            --set image.tag=${{github.sha}} \
+            --set image.registry=${{secrets.CONTAINER_REGISTRY}} \
+            --set cosmos_uri=${{secrets.COSMOS_URI}} \

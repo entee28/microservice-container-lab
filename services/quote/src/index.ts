@@ -60,6 +60,6 @@ app.get('/health', (_, res) => {
   }
 })
 
-app.listen(6000, () => {
-  console.log('server started on port 6000')
+app.listen(80, () => {
+  console.log('server started on port 80')
 })

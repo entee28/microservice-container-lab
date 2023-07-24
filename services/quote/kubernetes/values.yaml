@@ -4,7 +4,7 @@ cosmos_uri: ""
 
 image:
   regitry: ""
-  repository: hello-service
+  repository: quote-service
   pullPolicy: IfNotPresent
   tag: ""
 
@@ -20,22 +20,20 @@ ingress:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   hosts:
-    - host: hello-service.microserviceslab.io
+    - host: quote-service.microserviceslab.io
       paths:
-        - path: /hello(/|$)(.*)
-          pathType: Prefix
-        - path: /(.*)
+        - path: /quote(/|$)(.*)
           pathType: Prefix
 
   tls:
-   - secretName: keyvault-hello-service
+   - secretName: keyvault-quote-service
      hosts:
-       - hello-service.microserviceslab.io
+       - quote-service.microserviceslab.io
 
 secrets:
  - name: COSMOS_URI
    secretKeyRef:
-    name: hello-database
+    name: quote-database
     key: cosmos_uri
 
 resources:

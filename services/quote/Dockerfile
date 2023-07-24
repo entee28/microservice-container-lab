@@ -16,6 +16,6 @@ COPY --from=base /home/node/app ./
 
 ENV COSMOS_URI=$COSMOS_URI
 
-EXPOSE 6000
+EXPOSE 80
 
 CMD [ "npm", "start" ]

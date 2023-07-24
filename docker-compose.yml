@@ -6,12 +6,8 @@ services:
       context: ./services/hello-world
     image: ${CONTAINER_REGISTRY}/hello-service:${GIT_SHA}
     container_name: hello-service
-    ports:
-      - '80:80'
   quote-service:
     build:
       context: ./services/quote
     image: ${CONTAINER_REGISTRY}/quote-service:${GIT_SHA}
     container_name: quote-service
-    ports:
-      - '6000:6000'
