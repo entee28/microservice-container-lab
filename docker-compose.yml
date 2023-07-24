@@ -7,7 +7,7 @@ services:
     image: ${CONTAINER_REGISTRY}/hello-service:${GIT_SHA}
     container_name: hello-service
     ports:
-      - '4000:4000'
+      - '80:80'
   quote-service:
     build:
       context: ./services/quote
