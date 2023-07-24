@@ -24,13 +24,9 @@ ingress:
           pathType: Prefix
 
   tls:
-   - secretName: ingress-tls-csi
+   - secretName: keyvault-hello-service
      hosts:
        - hello-service.microserviceslab.io
-
-akv:
-  name: microserviceslab-kvault
-  tenantId: a3ff8926-c642-4722-85a2-246eb3098a3c
 
 secrets:
  - name: COSMOS_URI
