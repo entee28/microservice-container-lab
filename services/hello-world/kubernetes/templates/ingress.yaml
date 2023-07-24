@@ -33,6 +33,6 @@ spec:
                   name: http
                   number: 80
           {{- end }}
-        host: {{ .host | quote }}
+        # host: {{ .host | quote }}
     {{- end }}
 {{- end }}
