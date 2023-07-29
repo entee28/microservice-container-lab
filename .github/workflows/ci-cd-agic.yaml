@@ -1,9 +1,9 @@
-name: Microservices Lab
+name: Microservices Lab - AGIC
 
 on:
   push:
     branches:
-      - main
+      - agic
     paths-ignore:
       - 'frontend/**'
   workflow_dispatch:
@@ -11,7 +11,7 @@ on:
 env:
   # basic
   resourceGroup: microservices-lab
-  clusterName: lab-aks-cluster
+  clusterName: lab-aks-cluster-agwi
   location: southeastasia
 
 jobs:
