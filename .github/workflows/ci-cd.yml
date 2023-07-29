@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - agic
     paths-ignore:
       - 'frontend/**'
   workflow_dispatch:
