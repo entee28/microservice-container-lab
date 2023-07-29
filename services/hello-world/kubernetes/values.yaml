@@ -21,7 +21,7 @@ ingress:
   hosts:
     - host: hello-service.microserviceslab.io
       paths:
-        - path: /hello/*
+        - path: /hello
           pathType: Prefix
 
   tls:
