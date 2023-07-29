@@ -11,7 +11,7 @@ on:
 env:
   # basic
   resourceGroup: aks-agic-lab
-  clusterName: lab-aks-agic-cluster
+  clusterName: lab-aks-cluster-agic
   location: southeastasia
 
 jobs:
