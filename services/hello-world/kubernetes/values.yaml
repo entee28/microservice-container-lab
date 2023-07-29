@@ -17,13 +17,12 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/backend-path-prefix: "/"
   hosts:
     - host: hello-service.microserviceslab.io
       paths:
-        - path: /hello
+        - path: /hello/*
           pathType: Prefix
-        - path: /
-          pathType: Exact
 
   tls:
    - secretName: keyvault-hello-service
