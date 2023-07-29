@@ -20,10 +20,10 @@ ingress:
   hosts:
     - host: hello-service.microserviceslab.io
       paths:
-        - path: /hello(/|$)(.*)
+        - path: /hello
           pathType: Prefix
-        - path: /(.*)
-          pathType: Prefix
+        - path: /
+          pathType: Exact
 
   tls:
    - secretName: keyvault-hello-service

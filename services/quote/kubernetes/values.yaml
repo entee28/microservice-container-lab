@@ -20,7 +20,7 @@ ingress:
   hosts:
     - host: quote-service.microserviceslab.io
       paths:
-        - path: /quote(/|$)(.*)
+        - path: /quote
           pathType: Prefix
 
   tls:
