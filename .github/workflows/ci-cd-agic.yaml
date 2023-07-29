@@ -10,8 +10,8 @@ on:
 
 env:
   # basic
-  resourceGroup: microservices-lab-agic
-  clusterName: lab-aks-cluster-agic
+  resourceGroup: aks-agic-lab
+  clusterName: aks-agic-cluster
   location: southeastasia
 
 jobs:
